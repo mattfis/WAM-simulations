@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="shortcut icon" href="#">
+	<meta charset="UTF-8">
+	<title>ICON parameter influence on output variables</title>
+    <style>
+        .slidecontainer {
+            width: 100%;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            display: block;
+            width: 100%; /* Adjusts the width to fill the parent div */
+            height: 25px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+        .slider:hover {
+            opacity: 1;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            background: #04AA6D;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 10px;
+            height: 25px;
+            background: #04AA6D;
+            cursor: pointer;
+        }
+
+        /* Aligns sliders horizontally with centered labels */
+        .slider-row {
+            display: flex;
+            justify-content: space-around; /* Spread sliders evenly */
+            align-items: center; /* Align sliders vertically */
+            padding: 15px;
+        }
+
+        .slider-column {
+            text-align: center; /* Centers labels below sliders */
+        }
+
+        .slider-label {
+            display: block; /* Ensures the label appears below the slider */
+            margin-top: 5px; /* Small gap between slider and label */
+        }
+		.slider-image {
+            display: block; /* Images should be on their own line */
+            width: 100%; /* Image width matches slider width */
+            object-fit: contain; /* Ensures image is not distorted */
+        }
+		fieldset {
+		  border: 1px solid #ccc; /* Light gray border for the fieldset */
+		  padding: 10px; /* Padding inside the fieldset */
+		  border-radius: 5px; /* Rounded corners for a smoother look */
+		  background-color: #f9f9f9; /* Light background color */
+		}
+		
+		legend {
+		  font-weight: bold; /* Bold text for the legend */
+		  font-size: 1.1em; /* Slightly larger font size */
+		  color: #333; /* Dark gray text color */
+		}
+		
+		/* Container for radio buttons with consistent spacing */
+		.radio-container {
+		  display: flex; /* Flexbox layout for alignment */
+		  flex-direction: column; /* Vertical stacking of radio buttons */
+		  gap: 10px; /* Spacing between radio buttons */
+		}
+
+		/* Individual radio buttons with labels */
+		.radio-option {
+		  display: flex; /* Flex layout for alignment */
+		  align-items: center; /* Center radio button and label */
+		}
+
+		/* Radio button label styling */
+		.radio-option label {
+		  margin-left: 10px; /* Space between radio button and label */
+		  font-size: 1em; /* Consistent font size */
+		  color: #333; /* Text color for labels */
+		}
+		.page-title {
+		  text-align: center; /* Center the title horizontally */
+		  font-size: 28px; /* Larger font size for emphasis */
+		  font-weight: bold; /* Bold font */
+		  color: #444; /* Dark gray text color */
+		  margin-top: 30px; /* Space between the top of the page and the title */
+		  margin-bottom: 20px; /* Space between the title and the content */
+		  text-transform: uppercase; /* Optional: Uppercase all text */
+		  letter-spacing: 1px; /* Optional: Add space between letters */
+		}
+		.outer-container {
+		  width: 100%; /* Full width to ensure auto-margin works */
+		}
+    </style>
+	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script> <!-- Load Plotly -->
+</head>
+
+<body>
+<h2 class="page-title">ICON parameter influence on output variables</h2>
+ <div class="outer-container">
+<div id="container" style="width:1000px; margin:0 auto;">
+	<div id="plotDiv" style="width: 800px; height: 600px; float:left"></div>
+    <div id="container" style="width:200px;float:left;margin-top:100px">
+	
+    <fieldset id="radioContainer" style="margin-top: 10px">
+        <legend>Select Output:</legend>
+    </fieldset>
+	<fieldset style="margin-top:20px"><legend>Select illustration:</legend>
+		<div>
+			<input type="radio" id="difference" name="illustration" value="diff_val" checked />
+			<label for="difference">ICON variability</label>
+		</div>
+		<div>
+			<input type="radio" id="target" name="illustration" value="target" />
+			<label for="target">Target residual</label>
+		  </div>
+	</fieldset>
+	<button onclick="setSliderValue()" id="btn0" style="width:200px;height:30px;margin-top:40px">Reset parameters</button>
+</div>
+
+<!-- Slider container with labels below -->
+<div class="slider-row" style="width: 1000px">
+    <div class="slider-column" style="width: 150px">
+	    <img src="pdf1.svg" alt="Image 1" class="slider-image"> <!-- Placeholder image -->
+        <input type="range" min="0" max="1" value="0.5" step="0.01" class="slider" id="slider1">
+        <label for="slider1" class="slider-label">entrorg [1/m]</label>
+        <span id="slider1Value">0.5</span> <!-- Display slider value -->
+    </div>
+    <div class="slider-column" style="width: 150px">
+		<img src="pdf2.svg" alt="Image 2" class="slider-image"> <!-- Placeholder image -->
+        <input type="range" min="0" max="1" value="0.5" step="0.01" class="slider" id="slider2">
+        <label for="slider2" class="slider-label">rhebc_land_trop [-]</label>
+        <span id="slider2Value">0.5</span> <!-- Display slider value -->
+    </div>
+    <div class="slider-column" style="width: 150px">
+		<img src="pdf3.svg" alt="Image 3" class="slider-image"> <!-- Placeholder image -->
+        <input type="range" min="0" max="1" value="0.5" step="0.01" class="slider" id="slider3">
+        <label for="slider3" class="slider-label">zvz0i [m/s]</label>
+        <span id="slider3Value">0.5</span> <!-- Display slider value -->
+    </div>
+    <div class="slider-column" style="width: 150px">
+		<img src="pdf4.svg" alt="Image 4" class="slider-image"> <!-- Placeholder image -->
+        <input type="range" min="0" max="1" value="0.5" step="0.01" class="slider" id="slider4">
+        <label for="slider4" class="slider-label">tkhmin [m^2 / s]</label>
+        <span id="slider4Value">0.5</span> <!-- Display slider value -->
+    </div>
+    <div class="slider-column" style="width: 150px">
+		<img src="pdf5.svg" alt="Image 5" class="slider-image"> <!-- Placeholder image -->
+        <input type="range" min="0" max="1" value="0.5" step="0.01" class="slider" id="slider5">
+        <label for="slider5" class="slider-label">c_soil [-]</label>
+        <span id="slider5Value">0.5</span> <!-- Display slider value -->
+    </div>
+    <div class="slider-column" style="width: 150px">
+		<img src="pdf6.svg" alt="Image 6" class="slider-image"> <!-- Placeholder image -->
+        <input type="range" min="0" max="1" value="0.5" step="0.01" class="slider" id="slider6">
+        <label for="slider6" class="slider-label">rcucov_trop [-]</label>
+        <span id="slider6Value">0.5</span> <!-- Display slider value -->
+    </div>
+</div>
+</div>
+
+
+<script>
+		const stepSize = 0.01;
+		const totalSteps = 101;
+		const sliderIds = ["slider1", "slider2", "slider3", "slider4", "slider5", "slider6"];
+		const output_list = ['precipitation', 'MSLP', 'cloud (low)', 'cloud (mid)', 'cloud (high)', 'water vapor', '2m temp', '2m dew point', 'u speed 600hPa', 'u speed 200hPa','v speed 600hPa', 'v speed 200hPa']
+		const label = ["mm/d", "hPa", "%", "%", "%", "kg / m^2", "K", "K", "m/s", "m/s", "m/s", "m/s"]
+		const par_lim = [[8.00e-04, 3.00e-03],
+			   [5.00e-01, 9.50e-01],
+			   [2.50e-01, 4.00e+00],
+			   [2.00e-01, 1.95e+00],
+			   [5.00e-02, 1.95e+00],
+			   [1.50e-02, 1.20e-01]];	
+		const out_lim = [10, 200, 30, 30, 30, 3, 3, 3, 5, 5, 2, 2];
+		let jsonData;
+		let principal_fields;
+		let std_fields;
+
+		
+		// Fill array with values from 0 to 1 with the specified step size
+		const ppf_values = [];
+		for (let i = 0; i <= 1.0001; i += stepSize) {
+		  ppf_values.push(parseFloat(i.toFixed(2))); // Use toFixed to avoid floating-point precision issues
+		}
+		
+		
+		function generateList(start, end, steps) {
+		  const stepSize = (end - start) / (steps - 1); // Calculate the step size
+		  const list = [];
+
+		  for (let i = 0; i < steps; i++) {
+			const currentValue = start + (i * stepSize); // Determine current value
+			list.push(currentValue); // Add value to the list
+		  }
+
+		  return list; // Return the generated list
+		}
+		
+		const x_phys_values = par_lim.map(lim => generateList(lim[0], lim[1], totalSteps));
+
+		
+		function linearInterpolation(x, xValues, yValues) {
+		  if (x < xValues[0] || x > xValues[xValues.length - 1]) {
+			throw new Error("x is outside the range of the data");
+		  }
+		  let i = 0;
+		  while (x > xValues[i + 1]) {
+			i++;
+		  }
+		  const x1 = xValues[i];
+		  const x2 = xValues[i + 1];
+		  const y1 = yValues[i];
+		  const y2 = yValues[i + 1];
+		  const slope = (y2 - y1) / (x2 - x1);
+		  const y = y1 + slope * (x - x1);
+		  return y;
+		}
+		
+		function getCDF(x_phys, xphys_values) {
+		  if (x_phys < xphys_values[0]) {
+			return 0; // CDF is 0 for values smaller than the first quantile
+		  } else if (x_phys > xphys_values[xphys_values.length - 1]) {
+			return 1; // CDF is 1 for values larger than the last quantile
+		  }
+		  return linearInterpolation(x_phys, xphys_values, ppf_values);
+		}
+		
+		function convertToCDF(sliders_phys, ppf_table) {
+			const sliders = sliders_phys.map((value, index) => {
+				return getCDF(value, ppf_table[index]);
+			});
+
+			return sliders;  // Return an array of CDF values
+		}
+		
+		
+		function createRadioButtons(containerId, start, end, defaultChecked) {
+            const container = document.getElementById(containerId);  // Get the fieldset container
+
+            // Loop to create radio buttons from start to end
+            for (let i = start; i <= end; i++) {
+                const div = document.createElement("div");  // Create a new div
+
+                // Create the radio button
+                const radio = document.createElement("input");
+                radio.type = "radio";
+                radio.id = `out${i}`;
+                radio.name = "outputs";
+                radio.value = `out${i}`;
+				radio.style = 'margin-top: 5px'
+                if (i === defaultChecked) {
+                    radio.checked = true;  // Set default checked
+                }
+
+                // Create the label for the radio button
+                const label = document.createElement("label");
+                label.setAttribute("for", `out${i}`);
+                label.innerText = output_list[i-1];
+
+                // Append radio and label to the div
+                div.appendChild(radio);
+                div.appendChild(label);
+
+                // Append the div to the container
+                container.appendChild(div);
+            }
+        }
+
+	    function getSelectedRadioIndex() {
+            const radios = document.querySelectorAll('input[name="outputs"]');  // Get all radio buttons in the group
+            for (let i = 0; i < radios.length; i++) {
+                if (radios[i].checked) {  // Find the checked radio button
+                    return i;  // Return the index of the checked radio button
+                }
+            }
+            return -1;  // Return -1 if no radio button is selected
+        }
+		
+		function getSelectedFieldIndex() {
+            const radios = document.querySelectorAll('input[name="illustration"]');  // Get all radio buttons in the group
+            for (let i = 0; i < radios.length; i++) {
+                if (radios[i].checked) {  // Find the checked radio button
+                    return i;  // Return the index of the checked radio button
+                }
+            }
+            return -1;  // Return -1 if no radio button is selected
+        }
+				
+		function setSliderValue() {
+		  const event = new Event("input", { bubbles: true });
+
+		  sliderIds.forEach((sliderId) => {
+			const slider = document.getElementById(sliderId);
+
+			// Set the default value and dispatch an event to update other components
+			slider.value = ppf_table[parseInt(sliderId.slice(-1)) - 1][50];
+			slider.dispatchEvent(event);  // Dispatch the input event to trigger listeners
+
+			// Update the display for each slider's value
+			document.getElementById(`${sliderId}Value`).innerText = parseFloat(slider.value).toFixed(5);
+		  });
+		}
+
+		function getSliderValues(numSliders) {
+			const values = [];
+			for (let i = 1; i <= numSliders; i++) {
+				const slider = document.getElementById(`slider${i}`);
+				values.push(parseFloat(slider.value));  // Parse and add slider value
+			}
+			return values;  // Return all slider values
+		}
+		
+		function updateSliderRanges(sliderIds, ppf_table) {
+		  sliderIds.forEach((sliderId, index) => {
+			const slider = document.getElementById(sliderId);
+
+			// Define min, max, and default values for each slider
+			const minVal = ppf_table[index][1];  // Second entry from start
+			const maxVal = ppf_table[index][ppf_table[index].length - 2];  // Second entry from end
+			const defaultVal = ppf_table[index][50];  // Middle value (50th entry)
+
+			slider.min = minVal;
+			slider.max = maxVal;
+			slider.step = (maxVal - minVal)/100;
+			slider.value = defaultVal;
+
+			// Update displayed slider values
+			document.getElementById(`${sliderId}Value`).innerText = parseFloat(defaultVal).toFixed(5);
+		  });
+		}
+
+
+		// Function to fetch JSON data for 'coef.json'
+		function fetchJsonData() {
+			return fetch("coef.json")  // Ensure the path is correct
+				.then((response) => {
+					if (!response.ok) {
+						throw new Error("Failed to fetch JSON: " + response.statusText);
+					}
+					return response.json();  // Parse the JSON data
+				})
+				.then((data) => {
+					jsonData = data;  // Store the fetched data in a global variable
+					console.log("Data fetched:", jsonData);  // Check the data structure
+					return jsonData;  // Return the fetched data
+				})
+				.catch((error) => {
+					console.error("Error fetching JSON:", error);
+					throw error;  // Re-throw the error for further handling
+				});
+		}
+
+		function fetchMeanDiffData() {
+			return fetch("mean_diff.json")  // Ensure the path is correct
+				.then((response) => {
+					if (!response.ok) {
+						throw new Error("Failed to fetch mean diff: " + response.statusText);
+					}
+					return response.json();  // Parse the JSON data
+				})
+				.then((data) => {
+					mean_diff = data;  // Store the fetched data in a global variable
+					console.log("Data fetched:", mean_diff);  // Check the data structure
+					return mean_diff;  // Return the fetched data
+				})
+				.catch((error) => {
+					console.error("Error fetching mean_diff:", error);
+					throw error;  // Re-throw the error for further handling
+				});
+		}
+
+		// Function to fetch JSON data for 'principal_fields.json'
+		function fetchPrincipalData() {
+			return fetch("principal_fields.json")
+				.then((response) => {
+					if (!response.ok) {
+						throw new Error("Failed to fetch JSON: " + response.statusText);
+					}
+					return response.json();  // Parse the JSON data
+				})
+				.then((data) => {
+					principal_fields = data;  // Store the fetched data in a global variable
+					console.log("Principal fields fetched:", principal_fields);
+					return principal_fields;  // Return the fetched data
+				})
+				.catch((error) => {
+					console.error("Error fetching principal fields:", error);
+					throw error;
+				});
+		}
+
+		function fetchPpfData() {
+			return fetch("ppf_table.json")
+				.then((response) => {
+					if (!response.ok) {
+						throw new Error("Failed to fetch JSON: " + response.statusText);
+					}
+					return response.json();  // Parse the JSON data
+				})
+				.then((data) => {
+					ppf_table = data;  // Store the fetched data in a global variable
+					console.log("Ppf Data fetched:", ppf_table);
+					return ppf_table;  // Return the fetched data
+				})
+				.catch((error) => {
+					console.error("Error fetching PPF:", error);
+					throw error;
+				});
+		}
+
+		function fetchPdfData() {
+			return fetch("pdf_table.json")
+				.then((response) => {
+					if (!response.ok) {
+						throw new Error("Failed to fetch JSON: " + response.statusText);
+					}
+					return response.json();  // Parse the JSON data
+				})
+				.then((data) => {
+					pdf_table = data;  // Store the fetched data in a global variable
+					console.log("Pdf Data fetched:", pdf_table);
+					return pdf_table;  // Return the fetched data
+				})
+				.catch((error) => {
+					console.error("Error fetching PDF:", error);
+					throw error;
+				});
+		}
+
+		function fetchStdData() {
+			return fetch("std_fields.json")
+				.then((response) => {
+					if (!response.ok) {
+						throw new Error("Failed to fetch JSON: " + response.statusText);
+					}
+					return response.json();  // Parse the JSON data
+				})
+				.then((data) => {
+					std_fields = data;  // Store the fetched data in a global variable
+					console.log("Std fields fetched:", std_fields);
+					return std_fields;  // Return the fetched data
+				})
+				.catch((error) => {
+					console.error("Error fetching std fields:", error);
+					throw error;
+				});
+		}
+
+
+		function generateData(par1, par2, par3, par4, par5, par6, i_out, i_field) {			// INPUT: i.i.d. uniform variables
+			if (!jsonData || !Array.isArray(jsonData) || !Array.isArray(jsonData[6])) {
+				console.error("jsonData is undefined or doesn't have the expected structure");
+				return null;
+			}
+
+			if (!principal_fields || !Array.isArray(principal_fields[0])) {
+				console.error("principal_fields is undefined or doesn't have the expected structure");
+				return null;
+			}
+			
+
+			const z = [];
+			const rows = 50;  // Number of rows for the heatmap
+			const cols = 60;  // Number of columns for the heatmap
+			const pars = [par1, par2, par3, par4, par5, par6];
+			
+			for (let i = 0; i < rows; i++) {
+				const row = [];
+				for (let j = 0; j < cols; j++) {
+					let totalSum = 0;  // Variable to accumulate the total sum
+
+					// Outer loop for 'l' in range(3)
+					for (let l = 0; l < 3; l++) {
+						// Inner loop to calculate sum of the multiplications
+						let innerSum = jsonData[i_out][7 * l];  // Start with the first value
+
+						// Loop over 'k' to accumulate the inner sum
+						for (let k = 0; k < 6; k++) {
+							let xt = (linearInterpolation(pars[k], ppf_values, ppf_table[k]) - par_lim[k][0]) / (par_lim[k][1] - par_lim[k][0]);
+							innerSum += jsonData[i_out][k + 1 + 7 * l] * xt;
+						}
+
+						// Final multiplication and addition to the total sum
+						totalSum += innerSum * std_fields[i_out][i][j] * principal_fields[i_out][i][j][l];
+					}
+					
+					if(document.getElementById("target").checked){
+						totalSum -= mean_diff[i_out][i][j]
+					}
+					row.push(
+						totalSum
+						//sum((jsonData[i_out][7*l] + sum(jsonData[i_out][k+1+7*l]* par[k] for k in range(6))) * principal_fields[i_out][i][j][l] for l in range(3))
+					);  // Heatmap pattern
+				}
+				z.push(row);
+			}
+
+			return z;
+		}
+
+		document.addEventListener("DOMContentLoaded", () => {
+			// Fetch both JSON datasets before generating initial heatmap
+			Promise.all([fetchJsonData(), fetchPrincipalData(), fetchStdData(), fetchPpfData(),fetchPdfData(), fetchMeanDiffData()])  // Wait for both fetches to complete
+				.then(() => {
+					setSliderValue();
+					updateSliderRanges(sliderIds, ppf_table);
+					createRadioButtons("radioContainer", 1, 12, 1);  // Create radio buttons for outputs 1-12
+					document.getElementById("out1").checked = true
+					document.getElementById("difference").checked = true
+					// Generate initial heatmap after fetching the data
+					const plotData = generateData(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0, 0);
+					const customColorscale = [
+						[0, 'grey'],  // Start with red at position 0
+						[0.01, 'red'],  // Start with red at position 0
+						[0.5, 'white'],  // White at the midpoint
+						[0.99, 'blue'],  // End with blue at position 1
+						[1, 'grey'],  // Start with red at position 0
+					];
+					if (plotData) {  // Ensure plotData is valid
+						const plot = {
+							z: plotData,
+							type: 'heatmap',  // Heatmap trace
+							colorscale: customColorscale,  // Color scale
+							zmin: -out_lim[getSelectedRadioIndex()],  // Minimum value for the colorscale
+							zmax: out_lim[getSelectedRadioIndex()],  // Maximum value for the colorscale
+							colorbar: {title: {text: label[getSelectedRadioIndex()], side: 'right'}},
+							zsmooth: 'best',
+						};
+						
+
+						const scattergeo = {
+							type: 'scattergeo',  // Scattergeo trace
+							mode: 'markers',
+							marker: {
+								color: 'rgba(255, 255, 255, 0)',  // Transparent markers
+							},
+						};
+
+						// Create scattergeo and heatmap
+						Plotly.newPlot("plotDiv", [plot, scattergeo], {
+							geo: {
+								projection: {
+									type: 'equirectangular',  // Flat map projection
+								},
+								center: {
+									lat: 12.5,  // Center latitude
+									lon: 0,  // Center longitude
+								},
+								lataxis: {
+									range: [0, 25],  // Latitude from 0N to 25N
+								},
+								lonaxis: {
+									range: [-15, 15],  // Longitude from 15W to 15E
+								},
+								showcountries: true,  // Display country borders
+								countrycolor: 'black',
+								showland: false,
+								bgcolor: 'transparent',
+							},
+							margin: { l: 10, r: 10, b: 10, t: 10},
+							xaxis: {
+								showticklabels: false,  // Hide tick labels on the x-axis
+								ticks: '',  // Disable tick marks on the x-axis
+								showgrid: false,  // Optional: Hide grid lines
+							},
+							yaxis: {
+								showticklabels: false,  // Hide tick labels on the y-axis
+								ticks: '',  // Disable tick marks on the y-axis
+								showgrid: false,  // Optional: Hide grid lines
+								scaleanchor: 'x', // Lock the y-axis scaling to the x-axis
+								scaleratio: 1, // Set a 1:1 ratio for the x and y axes
+							}
+						},{
+							staticPlot: true,  // Completely static plot, disables pan and zoom
+							scrollZoom: false,  // Disables zoom with the mouse wheel
+							displayModeBar: false,  // Hides the mode bar
+							dragMode: false,  // Disables drag-based panning
+						}
+										
+						
+						);
+						// Function to update the heatmap when sliders change
+						
+
+						
+						function updatePlot() {
+							const sliders_phys = getSliderValues(6);
+							
+							const x_uniform = convertToCDF(sliders_phys, ppf_table)
+							const i_out = getSelectedRadioIndex()
+							const i_field = getSelectedFieldIndex()
+							
+							
+							//x_phys = ppf_table[0][1] 
+							
+							
+							//getCDF(x_phys, x_phys_values[0], ppf_table[0])
+
+							const newData = generateData(...x_uniform, i_out, i_field);  // Generate new data
+				
+							const zmin = -out_lim[getSelectedRadioIndex()];  // New minimum
+							const zmax = out_lim[getSelectedRadioIndex()];  // New maximum
+
+							// Update the heatmap with new data and the new colorbar ranges
+							Plotly.restyle("plotDiv", {
+								colorbar: {title: {text: label[getSelectedRadioIndex()], side: 'right'},},
+								z: [newData],  // Update the heatmap data
+								zmin: [zmin],  // Set the new minimum range
+								zmax: [zmax],  // Set the new maximum range
+							});
+						}
+
+						
+
+						// Add event listeners to sliders to update plot
+						document.getElementById("slider1").addEventListener('input', updatePlot);
+						document.getElementById("slider2").addEventListener('input', updatePlot);
+						document.getElementById("slider3").addEventListener('input', updatePlot);
+						document.getElementById("slider4").addEventListener('input', updatePlot);
+						document.getElementById("slider5").addEventListener('input', updatePlot);
+						document.getElementById("slider6").addEventListener('input', updatePlot);
+						document.getElementById("out1").addEventListener('input', updatePlot);
+						document.getElementById("out2").addEventListener('input', updatePlot);
+						document.getElementById("out2").addEventListener('input', updatePlot);
+						document.getElementById("out3").addEventListener('input', updatePlot);
+						document.getElementById("out4").addEventListener('input', updatePlot);
+						document.getElementById("out5").addEventListener('input', updatePlot);
+						document.getElementById("out6").addEventListener('input', updatePlot);
+						document.getElementById("out7").addEventListener('input', updatePlot);
+						document.getElementById("out8").addEventListener('input', updatePlot);
+						document.getElementById("out9").addEventListener('input', updatePlot);
+						document.getElementById("out10").addEventListener('input', updatePlot);
+						document.getElementById("out11").addEventListener('input', updatePlot);
+						document.getElementById("out12").addEventListener('input', updatePlot);
+						document.getElementById("difference").addEventListener('input', updatePlot);
+						document.getElementById("target").addEventListener('input', updatePlot);
+						document.getElementById('slider1').addEventListener('input', () => {document.getElementById('slider1Value').innerText = parseFloat(document.getElementById('slider1').value).toFixed(5);});
+						document.getElementById('slider2').addEventListener('input', () => {document.getElementById('slider2Value').innerText = parseFloat(document.getElementById('slider2').value).toFixed(5);});
+						document.getElementById('slider3').addEventListener('input', () => {document.getElementById('slider3Value').innerText = parseFloat(document.getElementById('slider3').value).toFixed(5);});
+						document.getElementById('slider4').addEventListener('input', () => {document.getElementById('slider4Value').innerText = parseFloat(document.getElementById('slider4').value).toFixed(5);});
+						document.getElementById('slider5').addEventListener('input', () => {document.getElementById('slider5Value').innerText = parseFloat(document.getElementById('slider5').value).toFixed(5);});
+						document.getElementById('slider6').addEventListener('input', () => {document.getElementById('slider6Value').innerText = parseFloat(document.getElementById('slider6').value).toFixed(5);});
+					}
+				})
+				.catch((error) => {
+					console.error("Failed to generate initial plot:", error);
+				});
+		});
+
+
+
+</script>
+</div>
+</body>
+</html>
