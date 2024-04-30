@@ -503,6 +503,7 @@
 					
 					if(document.getElementById("target").checked){
 						totalSum -= mean_diff[i_out][i][j]
+						totalSum = -totalSum
 					}
 					row.push(
 						totalSum
@@ -527,11 +528,11 @@
 					// Generate initial heatmap after fetching the data
 					const plotData = generateData(0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0, 0);
 					const customColorscale = [
-						[0, 'grey'],  // Start with red at position 0
-						[0.01, 'red'],  // Start with red at position 0
-						[0.5, 'white'],  // White at the midpoint
-						[0.99, 'blue'],  // End with blue at position 1
-						[1, 'grey'],  // Start with red at position 0
+						[0, 'darkblue'],  
+						[0.01, 'blue'],  
+						[0.5, 'white'],  
+						[0.99, 'red'],  
+						[1, 'darkred'],  
 					];
 					if (plotData) {  // Ensure plotData is valid
 						const plot = {
