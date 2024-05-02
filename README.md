@@ -1,1 +1,1 @@
-# WAM-simulations
+# wam-simulations
