@@ -306,12 +306,13 @@
 				
 		function setSliderValue() {
 		  const event = new Event("input", { bubbles: true });
+		  const defValues = [0.00185, 0.755, 1.25, 0.75, 1, 0.05];
 
-		  sliderIds.forEach((sliderId) => {
+		  sliderIds.forEach((sliderId, index) => {
 			const slider = document.getElementById(sliderId);
 
 			// Set the default value and dispatch an event to update other components
-			slider.value = ppf_table[parseInt(sliderId.slice(-1)) - 1][50];
+			slider.value = defValues[index];
 			slider.dispatchEvent(event);  // Dispatch the input event to trigger listeners
 
 			// Update the display for each slider's value
