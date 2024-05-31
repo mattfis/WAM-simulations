@@ -322,7 +322,7 @@
 		
 		function setOptimalValue() {
 			const event = new Event("input", { bubbles: true });
-			const optimalValues = [0.0017, ppf_table[1][50], 1.55, ppf_table[3][50], 0.5, ppf_table[5][50]]; // Replace with your actual optimal values
+			const optimalValues = [0.0017, defaultVal[1], 1.55, defaultVal[3], 0.5, defaultVal[5]]; // Replace with your actual optimal values
 
 			sliderIds.forEach((sliderId, index) => {
 				const slider = document.getElementById(sliderId);
