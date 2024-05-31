@@ -330,7 +330,7 @@
 				slider.dispatchEvent(event); // Dispatch the input event to trigger listeners
 
 				// Update the display for each slider's value
-				document.getElementById(`${sliderId}Value`).innerText = parseFloat(slider.value).toFixed(5);
+				document.getElementById(`${sliderId}Value`).innerText = parseFloat(optimalValues[index]).toFixed(5);
 			});
 		}
 
