@@ -355,7 +355,7 @@
 			slider.min = minVal;
 			slider.max = maxVal;
 			slider.step = (maxVal - minVal)/100;
-			slider.value = defaultVal;
+			slider.value = defaultVal[index];
 
 			// Update displayed slider values
 			document.getElementById(`${sliderId}Value`).innerText = parseFloat(defaultVal).toFixed(5);
