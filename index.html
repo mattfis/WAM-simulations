@@ -132,6 +132,7 @@
 		  </div>
 	</fieldset>
 	<button onclick="setSliderValue()" id="btn0" style="width:200px;height:30px;margin-top:40px">Reset parameters</button>
+	<button onclick="setOptimalValue()" id="btn1" style="width:200px;height:30px;margin-top:40px">Optimal parameters</button>
 </div>
 
 <!-- Slider container with labels below -->
@@ -316,6 +317,20 @@
 			// Update the display for each slider's value
 			document.getElementById(`${sliderId}Value`).innerText = parseFloat(slider.value).toFixed(5);
 		  });
+		}
+		
+		function setOptimalValue() {
+			const event = new Event("input", { bubbles: true });
+			const optimalValues = [0.0017, ppf_table[1][50], 1.55, ppf_table[3][50], 0.5, ppf_table[5][50]]; // Replace with your actual optimal values
+
+			sliderIds.forEach((sliderId, index) => {
+				const slider = document.getElementById(sliderId);
+				slider.value = optimalValues[index]; // Set the optimal value for each slider
+				slider.dispatchEvent(event); // Dispatch the input event to trigger listeners
+
+				// Update the display for each slider's value
+				document.getElementById(`${sliderId}Value`).innerText = parseFloat(slider.value).toFixed(5);
+			});
 		}
 
 		function getSliderValues(numSliders) {
