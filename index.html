@@ -190,6 +190,7 @@
 			   [5.00e-02, 1.95e+00],
 			   [1.50e-02, 1.20e-01]];	
 		const out_lim = [10, 120, 30, 30, 30, 10, 4, 4, 4, 4, 2, 2];
+		const defaultVal = [0.00185, 0.755, 1.25, 0.75, 1, 0.05];
 		let jsonData;
 		let principal_fields;
 		let std_fields;
@@ -306,13 +307,12 @@
 				
 		function setSliderValue() {
 		  const event = new Event("input", { bubbles: true });
-		  const defValues = [0.00185, 0.755, 1.25, 0.75, 1, 0.05];
 
 		  sliderIds.forEach((sliderId, index) => {
 			const slider = document.getElementById(sliderId);
 
 			// Set the default value and dispatch an event to update other components
-			slider.value = defValues[index];
+			slider.value = defaultVal[index];
 			slider.dispatchEvent(event);  // Dispatch the input event to trigger listeners
 
 			// Update the display for each slider's value
@@ -350,12 +350,12 @@
 			// Define min, max, and default values for each slider
 			const minVal = ppf_table[index][1];  // Second entry from start
 			const maxVal = ppf_table[index][ppf_table[index].length - 2];  // Second entry from end
-			const defaultVal = ppf_table[index][50];  // Middle value (50th entry)
+			//const defaultVal = ppf_table[index][50];  // Middle value (50th entry)
 
 			slider.min = minVal;
 			slider.max = maxVal;
 			slider.step = (maxVal - minVal)/100;
-			//slider.value = defaultVal;
+			slider.value = defaultVal;
 
 			// Update displayed slider values
 			document.getElementById(`${sliderId}Value`).innerText = parseFloat(defaultVal).toFixed(5);
